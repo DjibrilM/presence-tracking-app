@@ -1,6 +1,13 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
@@ -19,6 +26,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
+
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -33,21 +41,23 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+const queryClient = new QueryClient()
+
+
 setupIonicReact();
 
 const App: React.FC = () => (
+  <QueryClientProvider client={queryClient}>
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/home">
+          <Route path="/">
           <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
+          </Route>
       </IonRouterOutlet>
     </IonReactRouter>
-  </IonApp>
+    </IonApp>
+  </QueryClientProvider>
 );
 
 export default App;
